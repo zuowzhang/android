@@ -14,10 +14,23 @@ public class DemoApplication extends Application {
     }
 }
 
+//定义中跳转过程中的自定义参数类型（Serializable/Parcelable）
+public class Student implements Serializable {
+    String name;
+    int age;
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
 //定义目标路由地址
 /***
-* 通过@Param声明需要自动初始化的参数
-* 
+* 通过@Param声明需要自动初始化的参数，参数必须不是[private]类型
 */
 
 @Route(path = "/activity/second")
@@ -77,7 +90,7 @@ public class DemoService extends Service {
 }
 
 //跳转
-public class MainActivity extends AppCompatActivity implements Serializable {
+public class MainActivity extends AppCompatActivity {
 
     private static final String tag = "MainActivity";
 

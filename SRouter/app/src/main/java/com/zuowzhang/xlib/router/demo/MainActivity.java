@@ -9,10 +9,8 @@ import com.zuowzhang.xlib.router.api.RoutePayload;
 import com.zuowzhang.xlib.router.api.RouteType;
 import com.zuowzhang.xlib.router.api.RouterManager;
 
-import java.io.Serializable;
 
-
-public class MainActivity extends AppCompatActivity implements Serializable {
+public class MainActivity extends AppCompatActivity {
 
     private static final String tag = "MainActivity";
 
