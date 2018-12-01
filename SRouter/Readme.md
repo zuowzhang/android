@@ -1,6 +1,6 @@
 ### Simple Router for Android
 * 支持activity/service/broadcast路由跳转
-* 支持参数自动解析，类似于spring @autowired，参数类型支持基本数据类型, Serializable, Parcelable
+* 支持参数(path参数/Intent参数)自动解析，类似于spring @autowired，参数类型支持基本数据类型, Serializable, Parcelable
 
 ### Sample
 ```java
@@ -73,6 +73,44 @@ public class DemoService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+}
+
+//跳转
+public class MainActivity extends AppCompatActivity implements Serializable {
+
+    private static final String tag = "MainActivity";
+
+    Button go2Second;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        go2Second = findViewById(R.id.go2Second);
+
+        go2Second.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Student student = new Student();
+                student.name = "zzz";
+                student.age = 18;
+
+                RouterManager.get().go(new RoutePayload.Builder("/activity/second?ch=A")//path参数
+                        .addParam("name", "li")//Intent参数
+                        .addParam("age", 16)
+                        .addParam("student", student)
+                        .build());
+
+                RouterManager.get().go(new RoutePayload.Builder("/service/demo?ch=S")
+                        .type(RouteType.SERVICE)
+                        .addParam("name", "li")
+                        .addParam("age", 16)
+                        .addParam("student", student)
+                        .build());
+            }
+        });
     }
 }
 ```
