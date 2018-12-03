@@ -37,6 +37,10 @@ public class Student implements Serializable {
 public class SecondActivity extends Activity {
     private static final String tag = "SecondActivity";
 
+    private static final int requestCode = 1;
+
+    Button go2Third;
+
     @Param
     String name;
 
@@ -53,8 +57,27 @@ public class SecondActivity extends Activity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        RouteParamInjector.inject(this, getIntent());//自动初始化被@param声明的参数
+        go2Third = findViewById(R.id.go2Third);
+        go2Third.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RouterManager.get().go(new RoutePayload.Builder("router://my/third?ch=T")
+                        .requestCode(SecondActivity.this, requestCode)
+                        .action("myaction")
+                        .addParam("name", "li")
+                        .addParam("age", 16)
+                        .addParam("student", student)
+                        .build());
+            }
+        });
+        RouteParamInjector.inject(this, getIntent());
         Log.i(tag, "name = " + name + "; \nage = " + age + "; \nch = " + ch + "; \nstudent = " + student);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(tag, "requestCode = " + requestCode + "; resultCode = " + resultCode);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
 
