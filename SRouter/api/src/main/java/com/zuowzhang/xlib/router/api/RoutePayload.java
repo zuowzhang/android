@@ -1,5 +1,6 @@
 package com.zuowzhang.xlib.router.api;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -11,6 +12,24 @@ public class RoutePayload {
     private Bundle params;
     private int flags;
     private String action;
+    private Activity requestActivity;
+    private int requestCode;
+
+    public RoutePayload(RouteType type,
+                        String path,
+                        Bundle params,
+                        int flags,
+                        String action,
+                        Activity requestActivity,
+                        int requestCode) {
+        this.type = type;
+        this.path = path;
+        this.params = params;
+        this.flags = flags;
+        this.action = action;
+        this.requestActivity = requestActivity;
+        this.requestCode = requestCode;
+    }
 
     public RouteType getType() {
         return type;
@@ -32,12 +51,12 @@ public class RoutePayload {
         return action;
     }
 
-    public RoutePayload(RouteType type, String path, Bundle params, int flags, String action) {
-        this.type = type;
-        this.path = path;
-        this.params = params;
-        this.flags = flags;
-        this.action = action;
+    public Activity getRequestActivity() {
+        return requestActivity;
+    }
+
+    public int getRequestCode() {
+        return requestCode;
     }
 
     public static class Builder {
@@ -46,6 +65,8 @@ public class RoutePayload {
         private Bundle params = new Bundle();
         private int flags;
         private String action;
+        private Activity requestActivity;
+        private int requestCode;
 
         public Builder(String path) {
             this.path = path;
@@ -63,6 +84,12 @@ public class RoutePayload {
 
         public Builder action(String action) {
             this.action = action;
+            return this;
+        }
+
+        public Builder requestCode(Activity requestActivity, int requestCode) {
+            this.requestActivity = requestActivity;
+            this.requestCode = requestCode;
             return this;
         }
 
@@ -117,7 +144,7 @@ public class RoutePayload {
         }
 
         public RoutePayload build() {
-            return new RoutePayload(type, path, params, flags, action);
+            return new RoutePayload(type, path, params, flags, action, requestActivity, requestCode);
         }
     }
 }

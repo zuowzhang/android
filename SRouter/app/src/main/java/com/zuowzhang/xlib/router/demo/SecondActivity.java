@@ -1,6 +1,7 @@
 package com.zuowzhang.xlib.router.demo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.zuowzhang.xlib.router.api.RouterManager;
 @Route(path = "/activity/second")
 public class SecondActivity extends Activity {
     private static final String tag = "SecondActivity";
+
+    private static final int requestCode = 1;
 
     Button go2Third;
 
@@ -39,6 +42,7 @@ public class SecondActivity extends Activity {
             @Override
             public void onClick(View view) {
                 RouterManager.get().go(new RoutePayload.Builder("router://my/third?ch=T")
+                        .requestCode(SecondActivity.this, requestCode)
                         .action("myaction")
                         .addParam("name", "li")
                         .addParam("age", 16)
@@ -48,5 +52,11 @@ public class SecondActivity extends Activity {
         });
         RouteParamInjector.inject(this, getIntent());
         Log.i(tag, "name = " + name + "; \nage = " + age + "; \nch = " + ch + "; \nstudent = " + student);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(tag, "requestCode = " + requestCode + "; resultCode = " + resultCode);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

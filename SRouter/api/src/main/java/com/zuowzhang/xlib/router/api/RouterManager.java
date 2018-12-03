@@ -81,7 +81,11 @@ public class RouterManager {
         }
         switch (routePayload.getType()) {
             case ACTIVITY:
-                appContext.startActivity(intent);
+                if (routePayload.getRequestActivity() != null) {
+                    routePayload.getRequestActivity().startActivityForResult(intent, routePayload.getRequestCode());
+                } else {
+                    appContext.startActivity(intent);
+                }
                 break;
             case SERVICE:
                 appContext.startService(intent);

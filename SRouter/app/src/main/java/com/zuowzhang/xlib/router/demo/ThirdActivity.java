@@ -28,5 +28,11 @@ public class ThirdActivity extends Activity {
         super.onCreate(savedInstanceState);
         RouteParamInjector.inject(this, getIntent());
         Log.i(tag, "name = " + name + "; \nage = " + age + "; \nch = " + ch + "; \nstudent = " + student);
+        setResult(100);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
