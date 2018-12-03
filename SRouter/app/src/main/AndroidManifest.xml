@@ -20,6 +20,14 @@
         <activity android:name=".SecondActivity"></activity>
 
         <service android:name=".DemoService"></service>
+
+        <activity android:name=".ThirdActivity">
+            <intent-filter>
+                <action android:name="myaction" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="router" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

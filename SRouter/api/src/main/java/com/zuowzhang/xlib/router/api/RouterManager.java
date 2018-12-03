@@ -2,6 +2,8 @@ package com.zuowzhang.xlib.router.api;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import com.zuowzhang.xlib.router.annotation.Constants;
 import com.zuowzhang.xlib.router.annotation.IRouter;
@@ -59,26 +61,34 @@ public class RouterManager {
                 break;
             }
         }
+        Intent intent;
         if (destClass != null) {
-            Intent intent = new Intent(appContext, destClass);
-            if (routePayload.getFlags() != 0) {
-                intent.setFlags(routePayload.getFlags());
-            }
+            intent = new Intent(appContext, destClass);
             RouteParamInjector.parseParams(destClass, routePayload.getPath(), intent);
-            if (routePayload.getParams().size() > 0) {
-                intent.putExtras(routePayload.getParams());
+        } else {
+            String action = routePayload.getAction();
+            if (TextUtils.isEmpty(action)) {
+                action = Intent.ACTION_VIEW;
             }
-            switch (routePayload.getType()) {
-                case ACTIVITY:
-                    appContext.startActivity(intent);
-                    break;
-                case SERVICE:
-                    appContext.startService(intent);
-                    break;
-                case BROADCAST:
-                    appContext.sendBroadcast(intent);
-                    break;
-            }
+            intent = new Intent(action);
+            intent.setData(Uri.parse(routePayload.getPath()));
+        }
+        if (routePayload.getFlags() != 0) {
+            intent.setFlags(routePayload.getFlags());
+        }
+        if (routePayload.getParams().size() > 0) {
+            intent.putExtras(routePayload.getParams());
+        }
+        switch (routePayload.getType()) {
+            case ACTIVITY:
+                appContext.startActivity(intent);
+                break;
+            case SERVICE:
+                appContext.startService(intent);
+                break;
+            case BROADCAST:
+                appContext.sendBroadcast(intent);
+                break;
         }
     }
 }

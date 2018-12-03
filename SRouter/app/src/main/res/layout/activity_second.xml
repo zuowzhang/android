@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
-        android:id="@+id/go2Main"
+        android:id="@+id/go2Third"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="go2Main"/>
+        android:text="go2Third"/>
 </LinearLayout>

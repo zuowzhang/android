@@ -10,6 +10,7 @@ public class RoutePayload {
     private String path;
     private Bundle params;
     private int flags;
+    private String action;
 
     public RouteType getType() {
         return type;
@@ -27,11 +28,16 @@ public class RoutePayload {
         return flags;
     }
 
-    public RoutePayload(RouteType type, String path, Bundle params, int flags) {
+    public String getAction() {
+        return action;
+    }
+
+    public RoutePayload(RouteType type, String path, Bundle params, int flags, String action) {
         this.type = type;
         this.path = path;
         this.params = params;
         this.flags = flags;
+        this.action = action;
     }
 
     public static class Builder {
@@ -39,6 +45,7 @@ public class RoutePayload {
         private String path;
         private Bundle params = new Bundle();
         private int flags;
+        private String action;
 
         public Builder(String path) {
             this.path = path;
@@ -51,6 +58,11 @@ public class RoutePayload {
 
         public Builder setFlags(int flags) {
             this.flags = flags;
+            return this;
+        }
+
+        public Builder action(String action) {
+            this.action = action;
             return this;
         }
 
@@ -105,7 +117,7 @@ public class RoutePayload {
         }
 
         public RoutePayload build() {
-            return new RoutePayload(type, path, params, flags);
+            return new RoutePayload(type, path, params, flags, action);
         }
     }
 }
