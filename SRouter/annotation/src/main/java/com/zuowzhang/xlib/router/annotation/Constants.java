@@ -1,5 +1,6 @@
 package com.zuowzhang.xlib.router.annotation;
 
+
 public class Constants {
     public static final String PACKAGE_NAME = "com.zuowzhang.xlib.router";
     public static final String PACKAGE_NAME_GEN = PACKAGE_NAME + ".gen";
